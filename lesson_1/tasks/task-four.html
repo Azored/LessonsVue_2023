@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/tasks.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Задача 4</title>
+  </head>
+
+  <body>
+    <div class="task">
+      <h2 class="task__title">Задача 4</h2>
+      <p class="task__description">“Рахунок у банку”</p>
+      <ol>
+        <li>
+          Спочатку сума дорівнює 0грн. Змінити суму у гривнях можна або
+          зарахуванням на рахунок, або зняттям.
+        </li>
+        <li>
+          Сума автоматично переводиться у долари та євро (фіксований курс
+          задається у data).
+        </li>
+        <li>
+          можливість зарахувати суму (контролювати, щоб не була від’ємною)
+        </li>
+        <li>можливість зняти (щоб не можна зняти більше ніж є на рахунку)</li>
+        <li>
+          при виконанні зняття і зарахування коштів вираховувати 3% від суми
+          (відображати кількість відсотків автоматично)
+        </li>
+      </ol>
+      <p>При зміні суми :</p>
+      <ul>
+        <li>якщо було зняття, то суму відоражати червоним</li>
+        <li>якщо було зарахування, то суму відображати зеленим</li>
+        <li>
+          якщо сума валюти менша за 100 то відображати червоним кольором, інакше
+          - зеленим
+        </li>
+      </ul>
+      <div id="app">{{ message }}</div>
+
+      <script>
+        const { createApp } = Vue
+
+        createApp({
+          data() {
+            return {
+              message: "Привіт, Vue!",
+            }
+          },
+        }).mount("#app")
+      </script>
+    </div>
+  </body>
+</html>

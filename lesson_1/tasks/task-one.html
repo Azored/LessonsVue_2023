@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/tasks.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Задача 1</title>
+  </head>
+
+  <body>
+    <div class="task">
+      <h2 class="task__title">Задача 1</h2>
+      <p class="task__description">Вводиться кількість пасажирів. Вивести:</p>
+      <ul>
+        <li>скільки потрібно автобусів (кожен автобус на 20 місць)</li>
+        <li>скільки пляшок води (кожному пасажиру 2 пляшки)</li>
+        <li>скільки бутербродів (кожному пасажиру 3 бутерброди)</li>
+      </ul>
+      <div id="app">{{ message }}</div>
+
+      <script>
+        const { createApp } = Vue
+
+        createApp({
+          data() {
+            return {
+              message: "Привіт, Vue!",
+            }
+          },
+        }).mount("#app")
+      </script>
+    </div>
+  </body>
+</html>

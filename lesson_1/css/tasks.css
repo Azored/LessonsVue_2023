@@ -1,0 +1,31 @@
+body {
+   background-color: #333;
+   color: #fff;
+   font-size: 20px;
+}
+
+table,
+tr,
+th {
+   border: 1px solid #fff;
+}
+
+tr,
+th {
+   padding: 5px 8px;
+}
+
+.task {}
+
+.task__title {
+   margin-bottom: 15px;
+}
+
+.task__description {
+   margin-bottom: 12px;
+}
+
+
+.task__list li:not(:last-child) {
+   margin-bottom: 8px;
+}
