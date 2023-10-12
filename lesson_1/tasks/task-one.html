@@ -18,19 +18,43 @@
         <li>скільки пляшок води (кожному пасажиру 2 пляшки)</li>
         <li>скільки бутербродів (кожному пасажиру 3 бутерброди)</li>
       </ul>
-      <div id="app">{{ message }}</div>
-
-      <script>
-        const { createApp } = Vue
-
-        createApp({
-          data() {
-            return {
-              message: "Привіт, Vue!",
-            }
-          },
-        }).mount("#app")
-      </script>
+      <div id="app">
+        <div>
+          Введіть кількість пасажирів:
+          <input type="number" v-model="passengerNumber" />
+        </div>
+        <div>Кількість автобусів: <span>{{busNumber}}</span></div>
+        <div>Кількість пляшок води: <span>{{bottlesNumber}}</span></div>
+        <div>Кількість бутербродів: <span>{{sandvichesNumber}}</span></div>
+      </div>
     </div>
+    <script>
+      const { createApp } = Vue
+
+      const seatsNumberOfBus = 20
+      const bottlesNumberForOnePassenger = 2
+      const sandvichesNumberForOnePassenger = 3
+
+      const app = createApp({
+        data() {
+          return {
+            passengerNumber: null,
+          }
+        },
+
+        computed: {
+          busNumber() {
+            return Math.ceil(this.passengerNumber / seatsNumberOfBus)
+          },
+          bottlesNumber() {
+            return this.passengerNumber * bottlesNumberForOnePassenger
+          },
+          sandvichesNumber() {
+            return this.passengerNumber * sandvichesNumberForOnePassenger
+          },
+        },
+      })
+      app.mount("#app")
+    </script>
   </body>
 </html>

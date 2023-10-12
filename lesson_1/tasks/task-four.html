@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="../css/tasks.css" />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Задача 4</title>
+    <style>
+      .green {
+        color: green;
+      }
+      .red {
+        color: red;
+      }
+    </style>
   </head>
 
   <body>
@@ -40,19 +48,99 @@
           - зеленим
         </li>
       </ul>
-      <div id="app">{{ message }}</div>
+      <div id="app">
+        <div>
+          Сума на рахунку:
+          <span :class="transactionColor">{{moneyAmountOnAccount}}</span> грн.
+        </div>
+        <div>
+          Зарахувати на рахунок:
+          <input type="number" v-model="moneyAmount" />
+          <button @click="addMoneyOnAccount()">Зарахувати</button>
+        </div>
+        <div>
+          Зняти з рахунку:
+          <input type="number" v-model="moneyAmount" />
+          <button @click="withdrawMoneyFromAccount()">Зняти</button>
+        </div>
+        <div>Відсоток за обслуговування: <span>{{commison}}</span> грн</div>
+        <div class="red">{{message}}</div>
+        <hr />
+        <div>
+          Сума у доларах:
+          <span :class="getColorForUSD">{{moneyAmountToDollar}}</span> $
+        </div>
+        <div>
+          Сума у евро:
+          <span :class="getColorForEuro">{{moneyAmountToEuro}}</span> Є
+        </div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue
 
-      <script>
-        const { createApp } = Vue
+      const app = createApp({
+        data() {
+          return {
+            moneyAmountOnAccount: 0,
+            dollarRate: 36.6,
+            euroRate: 37.5,
+            commisonPercent: 3,
+            moneyAmount: null,
+            message: "",
+            transactionColor: "",
+          }
+        },
+        computed: {
+          commison() {
+            return (this.moneyAmount * (this.commisonPercent / 100)).toFixed(2)
+          },
+          moneyAmountToDollar() {
+            return (this.moneyAmountOnAccount / this.dollarRate).toFixed(2)
+          },
+          moneyAmountToEuro() {
+            return (this.moneyAmountOnAccount / this.euroRate).toFixed(2)
+          },
+          getColorForUSD() {
+            if (this.moneyAmountToDollar < 100) return "red"
+            else return "green"
+          },
+          getColorForEuro() {
+            if (this.moneyAmountToEuro < 100) return "red"
+            else return "green"
+          },
+        },
+        methods: {
+          addMoneyOnAccount() {
+            if (this.moneyAmount > 0) {
+              this.moneyAmountOnAccount += this.moneyAmount - this.commison
 
-        createApp({
-          data() {
-            return {
-              message: "Привіт, Vue!",
+              this.moneyAmount = null
+              this.message = ""
+              this.transactionColor = "green"
+            } else {
+              this.moneyAmount = null
+              this.message = "Увага, сума повинна бути більшою нуля!"
+              this.transactionColor = null
             }
           },
-        }).mount("#app")
-      </script>
-    </div>
+          withdrawMoneyFromAccount() {
+            if (this.moneyAmount < this.moneyAmountOnAccount) {
+              this.moneyAmountOnAccount -= this.moneyAmount - this.commison
+
+              this.moneyAmount = null
+              this.message = ""
+              this.transactionColor = "red"
+            } else {
+              this.moneyAmount = null
+              this.message =
+                "Увага, сума, яка знімається, більша за суму на рахунку!"
+              this.transactionColor = null
+            }
+          },
+        },
+      })
+      app.mount("#app")
+    </script>
   </body>
 </html>

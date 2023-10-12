@@ -16,19 +16,39 @@
         Задано початок та кінець діапазону. При натисканні на кнопку випадковим
         чином генерувати значення з вказаного діапазону та відображати його.
       </p>
-      <div id="app">{{ message }}</div>
-
-      <script>
-        const { createApp } = Vue
-
-        createApp({
-          data() {
-            return {
-              message: "Привіт, Vue!",
-            }
-          },
-        }).mount("#app")
-      </script>
+      <div id="app">
+        <div>
+          Введіть початок та кінець діапазону чисел:
+          <input type="number" v-model.lazy="minNumber" /> -
+          <input type="number" v-model.lazy="maxNumber" />
+        </div>
+        <button @click="getrandomNumber()">Згенерувати число</button>
+        <div>
+          Випадково згенероване значення із вказаного діапазону:
+          <span>{{randomNumber}}</span>
+        </div>
+      </div>
     </div>
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            minNumber: null,
+            maxNumber: null,
+            randomNumber: null,
+          }
+        },
+        methods: {
+          getrandomNumber() {
+            this.randomNumber =
+              this.minNumber +
+              Math.floor(Math.random() * (this.maxNumber - this.minNumber + 1))
+          },
+        },
+      })
+      app.mount("#app")
+    </script>
   </body>
 </html>

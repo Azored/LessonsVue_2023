@@ -17,19 +17,72 @@
         паролі. Користувач вводить логін і пароль, а програма повідомляє чи може
         користувач бути авторизованим (чи є він одним з масиву).
       </p>
-      <div id="app">{{ message }}</div>
-
-      <script>
-        const { createApp } = Vue
-
-        createApp({
-          data() {
-            return {
-              message: "Привіт, Vue!",
-            }
-          },
-        }).mount("#app")
-      </script>
+      <div id="app">
+         <div>
+           Login:
+           <input type="text" v-model.lazy="userLogin" />
+         </div>
+         <div>Password: <input type="password" v-model="userPassword" /></div>
+         <div>
+           <button @click="checkUserData">Go</button>
+           <p v-if="isAuthorized">Користувача авторизовано</p>
+           <p v-else>Введено невірноий логін або пароль</p>
+         </div>
+       </div>
+     </div>
+     <script>
+       const { createApp } = Vue
+ 
+       const usersData = [
+         {
+           login: "admin",
+           password: "admin",
+         },
+         {
+           login: "qwerty",
+           password: "12345",
+         },
+         {
+           login: "john123",
+           password: "54871994",
+         },
+         {
+           login: "login",
+           password: "password",
+         },
+         {
+           login: "delta",
+           password: "123456789",
+         },
+         {
+           login: "alex12",
+           password: "qw12er34ty56",
+         },
+       ]
+       const app = createApp({
+         data() {
+           return {
+             userLogin: null,
+             userPassword: null,
+             isAuthorized: null,
+           }
+         },
+         methods: {
+           checkUserData() {
+             for (let i = 0; i < usersData.length; i++)
+               if (
+                 this.userLogin === usersData[i].login &&
+                 this.userPassword === usersData[i].password
+               ) {
+                 this.isAuthorized = true
+                 return
+               }
+             this.isAuthorized = false
+           },
+         },
+       })
+       app.mount("#app")
+     </script>
     </div>
   </body>
 </html>
