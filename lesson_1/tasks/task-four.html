@@ -55,15 +55,18 @@
         </div>
         <div>
           Зарахувати на рахунок:
-          <input type="number" v-model="moneyAmount" />
+          <input type="number" v-model="addMoneyAmount" />
           <button @click="addMoneyOnAccount()">Зарахувати</button>
         </div>
         <div>
           Зняти з рахунку:
-          <input type="number" v-model="moneyAmount" />
+          <input type="number" v-model="withdrawMoneyAmount" />
           <button @click="withdrawMoneyFromAccount()">Зняти</button>
         </div>
-        <div>Відсоток за обслуговування: <span>{{commison}}</span> грн</div>
+        <div>
+          Відсоток за обслуговування:
+          <span>{{commissionValueForDisplay}}</span> грн
+        </div>
         <div class="red">{{message}}</div>
         <hr />
         <div>
@@ -85,15 +88,21 @@
             moneyAmountOnAccount: 0,
             dollarRate: 36.6,
             euroRate: 37.5,
-            commisonPercent: 3,
-            moneyAmount: null,
+            commissionPercent: 3,
+            addMoneyAmount: null,
+            withdrawMoneyAmount: null,
             message: "",
             transactionColor: "",
           }
         },
         computed: {
-          commison() {
-            return (this.moneyAmount * (this.commisonPercent / 100)).toFixed(2)
+          commission() {
+            let moneyAmount =
+              this.addMoneyAmount ?? 0 + this.withdrawMoneyAmount ?? 0
+            return moneyAmount * (this.commissionPercent / 100)
+          },
+          commissionValueForDisplay() {
+            return this.commission.toFixed(2)
           },
           moneyAmountToDollar() {
             return (this.moneyAmountOnAccount / this.dollarRate).toFixed(2)
@@ -112,27 +121,27 @@
         },
         methods: {
           addMoneyOnAccount() {
-            if (this.moneyAmount > 0) {
-              this.moneyAmountOnAccount += this.moneyAmount - this.commison
-
-              this.moneyAmount = null
+            if (this.addMoneyAmount > 0) {
+              this.moneyAmountOnAccount += this.addMoneyAmount - this.commission
+              this.addMoneyAmount = null
               this.message = ""
               this.transactionColor = "green"
             } else {
-              this.moneyAmount = null
+              this.addMoneyAmount = null
               this.message = "Увага, сума повинна бути більшою нуля!"
               this.transactionColor = null
             }
           },
           withdrawMoneyFromAccount() {
-            if (this.moneyAmount < this.moneyAmountOnAccount) {
-              this.moneyAmountOnAccount -= this.moneyAmount - this.commison
+            if (this.withdrawMoneyAmount < this.moneyAmountOnAccount) {
+              this.moneyAmountOnAccount -=
+                this.withdrawMoneyAmount - this.commission
 
-              this.moneyAmount = null
+              this.withdrawMoneyAmount = null
               this.message = ""
               this.transactionColor = "red"
             } else {
-              this.moneyAmount = null
+              this.withdrawMoneyAmount = null
               this.message =
                 "Увага, сума, яка знімається, більша за суму на рахунку!"
               this.transactionColor = null
